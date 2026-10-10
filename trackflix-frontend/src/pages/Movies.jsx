@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config";
 import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
@@ -39,7 +40,7 @@ const Movie = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get("https://fourloopers-9.onrender.com/api/fullmovies");
+        const res = await axios.get(`${API_BASE_URL}/fullmovies`);
         setAllMovies(res.data);
       } catch (err) {
         console.error(err);
@@ -120,7 +121,7 @@ const Movie = () => {
     };
 
     try {
-      const res = await axios.post("https://fourloopers-9.onrender.com/api/watchlist/add", {
+      const res = await axios.post(`${API_BASE_URL}/watchlist/add`, {
         userId: user.uid,
         userEmail: user.email,
         movie: movieData,

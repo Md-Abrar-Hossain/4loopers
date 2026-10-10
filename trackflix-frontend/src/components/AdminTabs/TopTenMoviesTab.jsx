@@ -83,7 +83,7 @@ const TopTenMoviesTab = () => {
     try {
       await deleteTopTenMovie(id);
       loadTopTenMovies();
-    } catch (err) {
+    } catch {
       alert("Failed to delete movie");
     }
   };

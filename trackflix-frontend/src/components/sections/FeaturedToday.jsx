@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../../config";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { FaChevronLeft, FaChevronRight, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +30,7 @@ const FeaturedToday = () => {
     async function fetchItems() {
       try {
         const response = await axios.get(
-          "https://fourloopers-9.onrender.com/api/featureditems"
+          `${API_BASE_URL}/featureditems`
         );
         setFeaturedItems(response.data);
       } catch (e) {

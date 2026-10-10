@@ -21,7 +21,6 @@ const teamMembers = [
     role: "Backend developer",
     img: "https://scontent.fcgp29-1.fna.fbcdn.net/v/t39.30808-6/472311480_3657117147768389_1392967456580518654_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGgl1atB2SSIU0GxVXeFcr_hBS_-Lffl2aEFL_4t9-XZvMMGAbUjFoHFOMzqyXBM3gX1CXWrIyx-Wn-38-XKAw4&_nc_ohc=IIEAtQhtMXgQ7kNvwHBShem&_nc_oc=AdlGBhpXIm3r8VV7V3pNEMkLpb5WhbGCGo4MbS3OPQy6L9o2Pmedms3XJ3WUkAOBPX0&_nc_zt=23&_nc_ht=scontent.fcgp29-1.fna&_nc_gid=DMTD2JKqlG7FUqAGzGIyxg&oh=00_AfUFGyErQO_R5RLwiISO9-IBic_TtG2ho4SRSsN7lo6arg&oe=68B5C352",
   },
- ,
 ];
 
 export default teamMembers;

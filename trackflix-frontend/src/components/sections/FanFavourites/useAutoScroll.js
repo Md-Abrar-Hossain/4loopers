@@ -34,8 +34,6 @@ const useAutoScroll = (
       if (pauseRef.current) return;
 
       if (!scrollElement) return;
-      const maxScrollLeft = scrollElement.scrollWidth - scrollElement.offsetWidth;
-      const currentScroll = scrollElement.scrollLeft;
 
       scrollElement.scrollBy({ left: scrollByValue, behavior: "smooth" });
 

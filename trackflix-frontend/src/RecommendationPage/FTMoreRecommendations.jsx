@@ -1,9 +1,7 @@
+import { API_BASE_URL } from "../config";
 import React, { useState, useEffect } from "react";
 import FlipCard from "../components/sectionExtra/FlipCard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-//import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase/firebase-config";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FTMoreRecommendations = () => {
@@ -14,7 +12,6 @@ const FTMoreRecommendations = () => {
   const [error, setError] = useState(null);
 
   const auth = getAuth();
-  const navigate = useNavigate();
 
   // Track login state
   useEffect(() => {
@@ -28,7 +25,7 @@ const FTMoreRecommendations = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const res = await axios.get("https://fourloopers-9.onrender.com/api/ftrecommendations");
+        const res = await axios.get(`${API_BASE_URL}/ftrecommendations`);
         setRecommendations(res.data);
       } catch (err) {
         setError("Failed to load recommendations");
@@ -42,22 +39,6 @@ const FTMoreRecommendations = () => {
 
   const handleFlip = (id) => {
     setFlippedCard((prev) => (prev === id ? null : id));
-  };
-
-  const handleAddToWatchlist = async (movie) => {
-    if (!auth.currentUser) {
-      navigate("/login");
-      return;
-    }
-    try {
-      await addDoc(collection(db, "watchlists"), {
-        userEmail: auth.currentUser.email,
-        movie,
-      });
-      alert("✅ Movie added to watchlist!");
-    } catch (error) {
-      console.error("Error adding to watchlist:", error);
-    }
   };
 
   return (
@@ -85,7 +66,6 @@ const FTMoreRecommendations = () => {
                 isFlipped={flippedCard === item.id}
                 onFlip={handleFlip}
                 isLoggedIn={isLoggedIn}
-                onAddToWatchlist={handleAddToWatchlist}
               />
             ))}
           </div>

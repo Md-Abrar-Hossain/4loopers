@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import { API_BASE_URL } from "../../config";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase-config";
 import InterestCard from "../PopularInterestsExtra/InterestCard";
-import TrailerModal from "../PopularInterestsExtra/TrailerModal";
+import TrailerModal from "../common/TrailerModal";
 import { useFetchInterests } from "../PopularInterestsExtra/useFetchInterests";
 import axios from "axios";
 
@@ -37,7 +38,7 @@ const PopularInterests = () => {
     };
 
     try {
-      const { status, data } = await axios.post("https://fourloopers-9.onrender.com/api/watchlist/add", {
+      const { status, data } = await axios.post(`${API_BASE_URL}/watchlist/add`, {
         userId: user.uid,
         userEmail: user.email,
         movie: movieData,
@@ -49,7 +50,7 @@ const PopularInterests = () => {
       } else {
         alert(data.message || "Failed to add to watchlist.");
       }
-    } catch (error) {
+    } catch {
       alert("Failed to add to watchlist.");
     }
   };
@@ -114,7 +115,7 @@ const PopularInterests = () => {
       </div>
 
       {/* Trailer Modal */}
-      {showTrailer && <TrailerModal trailerUrl={currentTrailerUrl} onClose={() => setShowTrailer(false)} />}
+      {showTrailer && <TrailerModal url={currentTrailerUrl} onClose={() => setShowTrailer(false)} />}
     </section>
   );
 };

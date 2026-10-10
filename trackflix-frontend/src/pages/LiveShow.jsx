@@ -1,7 +1,7 @@
+import { API_BASE_URL } from "../config";
 import React, { useState, useEffect, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { getAuth } from "firebase/auth";
 
 import LiveCard from "../components/MoviePages/LiveCard";
 import GenreFilter from "../components/MoviePages/GenreFilter";
@@ -24,8 +24,6 @@ const LiveShow = () => {
   const [error, setError] = useState(null);
 
   const itemsPerPage = 48;
-  const navigate = useNavigate();
-  const auth = getAuth();
 
   useEffect(() => {
     setSearchTerm(initialQuery);
@@ -37,7 +35,7 @@ const LiveShow = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get("https://fourloopers-9.onrender.com/api/livetvshows");
+        const res = await axios.get(`${API_BASE_URL}/livetvshows`);
         setAllMovies(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error(err);

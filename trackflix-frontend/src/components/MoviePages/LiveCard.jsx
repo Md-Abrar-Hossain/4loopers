@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../../config";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaStar, FaPlay, FaPlus } from "react-icons/fa";
@@ -43,7 +44,7 @@ const LiveCard = ({ movie }) => {
     };
 
     try {
-      const response = await axios.post("https://fourloopers-9.onrender.com/api/watchlist/add", {
+      const response = await axios.post(`${API_BASE_URL}/watchlist/add`, {
         userId: user.uid,
         userEmail: user.email,
         movie: movieData,

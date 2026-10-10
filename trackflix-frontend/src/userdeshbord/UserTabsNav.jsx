@@ -9,10 +9,6 @@ const tabs = [
   { key: "recommendations", label: "🎯 Recommendations" },
 ];
 
-const shimmerKeyframes = {
-  backgroundPosition: ["0% 50%", "100% 50%"],
-};
-
 const UserTabsNav = () => {
   const navigate = useNavigate();
   const location = useLocation();

@@ -54,8 +54,7 @@ const handleWatchlistClick = useCallback(
       }
       if (onAddToWatchlist) onAddToWatchlist(item);
     },
-    [auth.currentUser, isLoggedIn, item, navigate]
-    [isLoggedIn, navigate, onAddToWatchlist, item]
+    [auth, isLoggedIn, item, navigate, onAddToWatchlist]
   );
   const handleKeyDown = useCallback(
     (e) => {

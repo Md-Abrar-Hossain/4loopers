@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../../config";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -11,7 +12,7 @@ const MostPopularCelebrities = () => {
   const carouselRef = useRef(null);
 
 useEffect(() => {
-  axios.get("https://fourloopers-9.onrender.com/api/Celebrities")
+  axios.get(`${API_BASE_URL}/Celebrities`)
     .then((response) => {
       setCelebrities(response.data);
       setLoading(false);

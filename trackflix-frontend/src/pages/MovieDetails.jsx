@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config";
 import React, { useEffect, useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -27,7 +28,6 @@ import { containerVariants, itemVariants } from "../animations/MDanimation";
 
 // ... other imports remain the same
 
-const API_BASE_URL = "https://fourloopers-9.onrender.com/api";
 
 const MOBILE_BREAKPOINT = 768; // px
 

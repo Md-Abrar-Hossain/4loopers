@@ -1,4 +1,5 @@
 //main container + logic
+import { API_BASE_URL } from "../../config";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -8,7 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { addMovieToWatchlist } from "../../api/watchlist";
 
 import FanFavouriteCard from "./FanFavourites/FanFavouriteCard";
-import TrailerModal from "./FanFavourites/TrailerModal";
+import TrailerModal from "../common/TrailerModal";
 import useAutoScroll from "./FanFavourites/useAutoScroll";
 import axios from "axios";
 
@@ -33,7 +34,7 @@ const FanFavorites = ({ isLoggedIn, onRequireLogin }) => {
   const fetchFanFavorites = async () => {
     try {
       
-    const response = await axios.get("https://fourloopers-9.onrender.com/api/fanfavourites");
+    const response = await axios.get(`${API_BASE_URL}/fanfavourites`);
       setFanFavorites(response.data);
     } catch (error) {
       console.error("Failed to fetch fan favorites:", error);
@@ -204,11 +205,12 @@ const FanFavorites = ({ isLoggedIn, onRequireLogin }) => {
       </div>
 
       {/* Trailer Modal */}
-      <TrailerModal
-        showTrailer={showTrailer}
-        setShowTrailer={setShowTrailer}
-        currentTrailerUrl={currentTrailerUrl}
-      />
+      {showTrailer && (
+        <TrailerModal
+          url={currentTrailerUrl}
+          onClose={() => setShowTrailer(false)}
+        />
+      )}
 
       {/* Animation Keyframes */}
       <style>{`

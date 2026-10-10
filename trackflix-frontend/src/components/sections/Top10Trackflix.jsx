@@ -1,10 +1,11 @@
+import { API_BASE_URL } from "../../config";
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import axios from "axios";
 
 import Top10Card from "../Top10TrackflixExtra/Top10Card";
-import TrailerModal from "../Top10TrackflixExtra/TrailerModal";
+import TrailerModal from "../common/TrailerModal";
 
 const Top10Trackflix = () => {
   const scrollRef = useRef(null);
@@ -28,7 +29,7 @@ const Top10Trackflix = () => {
     const fetchTop10Movies = async () => {
       try {
         const { data } = await axios.get(
-          "https://fourloopers-9.onrender.com/api/toptenmovies"
+          `${API_BASE_URL}/toptenmovies`
         );
         setTop10(data);
       } catch (err) {
@@ -85,7 +86,7 @@ const Top10Trackflix = () => {
 
     try {
       const response = await axios.post(
-        "https://fourloopers-9.onrender.com/api/watchlist/add",
+        `${API_BASE_URL}/watchlist/add`,
         {
           userId: user.uid,
           userEmail: user.email,

@@ -1,4 +1,5 @@
 // src/hooks/useLiveShowDetails.js
+import { API_BASE_URL } from "../config";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
@@ -22,7 +23,7 @@ export function useLiveShowDetails(id) {
     const source = axios.CancelToken.source();
 
     try {
-      const { data } = await axios.get(`https://fourloopers-9.onrender.com/api/liveshows/${id}`, {
+      const { data } = await axios.get(`${API_BASE_URL}/liveshows/${id}`, {
         cancelToken: source.token,
       });
 

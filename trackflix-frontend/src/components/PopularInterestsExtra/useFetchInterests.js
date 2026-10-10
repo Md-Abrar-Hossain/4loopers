@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../../config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -8,7 +9,7 @@ export const useFetchInterests = () => {
   useEffect(() => {
     const fetchInterests = async () => {
       try {
-        const response = await axios.get("https://fourloopers-9.onrender.com/api/interests");
+        const response = await axios.get(`${API_BASE_URL}/interests`);
         setInterests(response.data);
       } catch (err) {
         console.error("Error fetching interests:", err);

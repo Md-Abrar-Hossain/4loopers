@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config";
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import RatingMovieCard from "./RatingMovieCard";
@@ -12,7 +13,7 @@ const Ratings = ({ user }) => {
     try {
       const token = await user.getIdToken();
       const { data } = await axios.get(
-        `https://fourloopers-9.onrender.com/api/watchlist/${user.uid}`,
+        `${API_BASE_URL}/watchlist/${user.uid}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -36,7 +37,7 @@ const Ratings = ({ user }) => {
     try {
       const token = await user.getIdToken();
       await axios.post(
-        `https://fourloopers-9.onrender.com/api/ratings/${user.uid}`,
+        `${API_BASE_URL}/ratings/${user.uid}`,
         { movieId, userRating: newRating },
         {
           headers: {

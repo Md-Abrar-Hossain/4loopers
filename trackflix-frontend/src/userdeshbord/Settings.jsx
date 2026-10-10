@@ -23,7 +23,7 @@ const Settings = ({ user, onUpdateProfile }) => {
       }
 
       setSuccessMessage("Profile updated successfully.");
-    } catch (err) {
+    } catch {
       setErrorMessage("Failed to update profile. Please try again.");
     } finally {
       setIsSaving(false);
