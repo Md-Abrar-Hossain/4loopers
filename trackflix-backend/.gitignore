@@ -3,3 +3,8 @@ node_modules/
 
 # Ignore Firebase service account key
 serviceAccountKey.json
+
+# Environment files (secrets)
+.env
+.env.*
+!.env.example
