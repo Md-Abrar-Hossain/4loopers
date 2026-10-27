@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,7 +18,13 @@ function App() {
       <Header isLoggedIn={!!user} user={user} />
 
       <main className="flex-grow">
-        <Outlet context={{ user }} />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center py-32 text-gray-300">Loading...</div>
+          }
+        >
+          <Outlet context={{ user }} />
+        </Suspense>
       </main>
 
       <Footer />

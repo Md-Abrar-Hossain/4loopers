@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import {
@@ -9,30 +9,33 @@ import {
 } from "react-router-dom";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { installAuthInterceptor } from "./api/attachAuth";
+
+installAuthInterceptor();
 
 // Pages and Components
 import App from "./App.jsx";
 import Home from "./pages/Home";
-import Movies from "./pages/Movies";
-import MovieDetails from "./pages/MovieDetails";
-import LiveDetails from "./pages/LiveDetails";
-import Search from "./pages/Search";
-import LogIn from "./components/LogIn";
-import SignIn from "./components/SignIn";
-import LiveShow from "./pages/LiveShow";
-import NewToMovies from "./components/FooterExtra/NewToMovies";
-import FTMoreRecommendations from "./RecommendationPage/FTMoreRecommendations";
-import MostPCMoreRecommendations from "./RecommendationPage/MostPCMoreRecommendations.jsx";
-import AdminPage from "./pages/AdminPage";
-import UserDashboard from "./pages/UserDashboard";
-import About from "./components/FooterExtra/About";
-import Contact from "./components/FooterExtra/Contact";
-import Privacy from "./components/FooterExtra/Privacy";
-import Terms from "./components/FooterExtra/Terms";
-import MeetTeam from "./pages/MeetTeam.jsx";
-import NotFound from "./pages/NotFound";
-import ProSubscriptionPage from "./ProVersion/ProSubscriptionPage.jsx";
-import TheaterPage from "./ProVersion/TheaterPage.jsx";
+const Movies = lazy(() => import("./pages/Movies"));
+const MovieDetails = lazy(() => import("./pages/MovieDetails"));
+const LiveDetails = lazy(() => import("./pages/LiveDetails"));
+const Search = lazy(() => import("./pages/Search"));
+const LogIn = lazy(() => import("./components/LogIn"));
+const SignIn = lazy(() => import("./components/SignIn"));
+const LiveShow = lazy(() => import("./pages/LiveShow"));
+const NewToMovies = lazy(() => import("./components/FooterExtra/NewToMovies"));
+const FTMoreRecommendations = lazy(() => import("./RecommendationPage/FTMoreRecommendations"));
+const MostPCMoreRecommendations = lazy(() => import("./RecommendationPage/MostPCMoreRecommendations.jsx"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+const UserDashboard = lazy(() => import("./pages/UserDashboard"));
+const About = lazy(() => import("./components/FooterExtra/About"));
+const Contact = lazy(() => import("./components/FooterExtra/Contact"));
+const Privacy = lazy(() => import("./components/FooterExtra/Privacy"));
+const Terms = lazy(() => import("./components/FooterExtra/Terms"));
+const MeetTeam = lazy(() => import("./pages/MeetTeam.jsx"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const ProSubscriptionPage = lazy(() => import("./ProVersion/ProSubscriptionPage.jsx"));
+const TheaterPage = lazy(() => import("./ProVersion/TheaterPage.jsx"));
 
 // ----------- Protected route wrappers ------------
 

@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-const uri = "mongodb://localhost:27017/Our_web_trackflix";
+const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/Our_web_trackflix";
 
 const client = new MongoClient(uri); // No options needed with recent driver
 

@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 
+const WATCH_STATUSES = ["plan_to_watch", "watching", "watched"];
+
 const movieSchema = new mongoose.Schema({
   id: { type: String, required: true },
   title: { type: String, required: true },
   type: { type: String, required: true },
   rating: { type: Number },      // Movie general rating
   userRating: { type: Number },  // User personal rating
+  status: { type: String, enum: WATCH_STATUSES, default: "plan_to_watch" },
+  addedAt: { type: Date, default: Date.now },
+  watchedAt: { type: Date },
   genres: { type: [String], default: [] },
   releaseDate: { type: String },
   trailerLink: { type: String },
@@ -29,3 +34,4 @@ const watchlistSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model("Watchlist", watchlistSchema);
+module.exports.WATCH_STATUSES = WATCH_STATUSES;

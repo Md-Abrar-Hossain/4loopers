@@ -1,6 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 
-const MovieCard = ({ movie, onRate, editable = false }) => {
+const STATUS_OPTIONS = [
+  { value: "plan_to_watch", label: "Plan to watch" },
+  { value: "watching", label: "Watching" },
+  { value: "watched", label: "Watched" },
+];
+
+const MovieCard = ({ movie, onRate, editable = false, onStatusChange, onRemove }) => {
   const movieId = movie.id || movie.movieId;
 
   const imageSrc = useMemo(() => {
@@ -59,6 +65,37 @@ const MovieCard = ({ movie, onRate, editable = false }) => {
             ? movie.genres.join(", ")
             : "Genre N/A"}
         </p>
+
+        {onStatusChange && (
+          <div className="mt-2 flex items-center gap-1">
+            <label htmlFor={`status-${movieId}`} className="sr-only">
+              Watch status for {movie.title}
+            </label>
+            <select
+              id={`status-${movieId}`}
+              value={movie.status || "plan_to_watch"}
+              onChange={(e) => onStatusChange(movieId, e.target.value)}
+              className="flex-1 min-w-0 text-[10px] sm:text-xs rounded-md border border-gray-300 p-1 focus:ring-2 focus:ring-blue-400"
+            >
+              {STATUS_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+            {onRemove && (
+              <button
+                type="button"
+                onClick={() => onRemove(movieId, movie.title)}
+                aria-label={`Remove ${movie.title} from watchlist`}
+                title="Remove"
+                className="text-xs px-1.5 py-1 rounded-md border border-red-300 text-red-600 hover:bg-red-50"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
 
         {editable && (
           <div className="mt-3">

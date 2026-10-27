@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { connect } = require("../config/mongo"); // Your DB connection helper
+const { verifyToken, requireAdmin } = require("../middleware/auth");
 
 // POST /api/login-events - record login event
-router.post("/", async (req, res) => {
-  const { uid, email } = req.body;
+router.post("/", verifyToken, async (req, res) => {
+  // Identity comes from the verified token, never from the request body.
+  const { uid, email } = req.user;
   if (!uid || !email) {
     return res.status(400).json({ error: "Missing uid or email" });
   }
@@ -24,7 +26,7 @@ router.post("/", async (req, res) => {
 });
 
 // GET /api/login-events/daily - get daily unique login counts
-router.get("/daily", async (req, res) => {
+router.get("/daily", verifyToken, requireAdmin, async (req, res) => {
   try {
     const db = await connect();
     const pipeline = [

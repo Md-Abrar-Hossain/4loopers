@@ -1,5 +1,5 @@
 
-export const OMDB_API_KEY = "be28d8e8";
+export const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY || "";
 
 export const genreList = [
   "action", "comedy", "drama", "thriller", "romance",

@@ -1,7 +1,7 @@
 // src/hooks/useFetchMovies.js
 import { useState, useEffect } from "react";
 
-const OMDB_API_KEY = "be28d8e8";
+const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY || "";
 
 const useFetchMovies = (searchTerm) => {
   const [moviesData, setMoviesData] = useState([]);

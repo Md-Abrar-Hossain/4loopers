@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { fetchWatchlist } from "../api/watchlist";
+import { fetchWatchlist, updateWatchlistMovie, removeWatchlistMovie } from "../api/watchlist";
 
 import UserHeader from "../userdeshbord/UserHeader";
 import MovieCard from "../userdeshbord/MovieCard";
@@ -17,6 +17,7 @@ const UserDashboard = () => {
   const [dataLoading, setDataLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const navigate = useNavigate();
   const auth = getAuth();
@@ -72,6 +73,55 @@ const UserDashboard = () => {
     });
   }, [watchlist]);
 
+  const counts = useMemo(() => {
+    const c = { all: uniqueWatchlist.length, plan_to_watch: 0, watching: 0, watched: 0 };
+    uniqueWatchlist.forEach((m) => {
+      c[m.status || "plan_to_watch"] += 1;
+    });
+    return c;
+  }, [uniqueWatchlist]);
+
+  const visibleWatchlist = useMemo(
+    () =>
+      statusFilter === "all"
+        ? uniqueWatchlist
+        : uniqueWatchlist.filter((m) => (m.status || "plan_to_watch") === statusFilter),
+    [uniqueWatchlist, statusFilter]
+  );
+
+  // Optimistic update: change the UI first, roll back if the server rejects it.
+  const handleStatusChange = async (movieId, status) => {
+    const previous = watchlist;
+    setWatchlist((list) => list.map((m) => (m.id === movieId ? { ...m, status } : m)));
+    try {
+      await updateWatchlistMovie(user.uid, movieId, { status });
+    } catch (err) {
+      console.error(err);
+      setWatchlist(previous);
+      alert("Could not update status. Please try again.");
+    }
+  };
+
+  const handleRemove = async (movieId, title) => {
+    if (!window.confirm(`Remove "${title}" from your watchlist?`)) return;
+    const previous = watchlist;
+    setWatchlist((list) => list.filter((m) => m.id !== movieId));
+    try {
+      await removeWatchlistMovie(user.uid, movieId);
+    } catch (err) {
+      console.error(err);
+      setWatchlist(previous);
+      alert("Could not remove the movie. Please try again.");
+    }
+  };
+
+  const STATUS_TABS = [
+    ["all", "All"],
+    ["plan_to_watch", "Plan to watch"],
+    ["watching", "Watching"],
+    ["watched", "Watched"],
+  ];
+
   if (authLoading)
     return <CenteredMessage message="🔄 Authenticating..." size="lg" />;
   if (dataLoading)
@@ -123,18 +173,43 @@ const UserDashboard = () => {
                 </button>
               </section>
             ) : (
-              <section
-                aria-live="polite"
-                aria-label="User watchlist movies"
-                className="grid grid-cols-4 gap-3 sm:gap-4"
-              >
-                {uniqueWatchlist.map((movie, index) => (
-                  <MovieCard
-                    key={movie.id ? `${movie.id}-${index}` : `${movie.title}-${index}`}
-                    movie={movie}
-                  />
-                ))}
-              </section>
+              <>
+                <div role="tablist" aria-label="Filter by watch status" className="flex flex-wrap gap-2 mb-4">
+                  {STATUS_TABS.map(([value, label]) => (
+                    <button
+                      key={value}
+                      role="tab"
+                      aria-selected={statusFilter === value}
+                      onClick={() => setStatusFilter(value)}
+                      className={`px-3 py-1 rounded-full text-sm font-medium border transition ${
+                        statusFilter === value
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                      }`}
+                    >
+                      {label} ({counts[value]})
+                    </button>
+                  ))}
+                </div>
+                {visibleWatchlist.length === 0 ? (
+                  <p className="text-gray-600 mt-8 text-center">Nothing here yet.</p>
+                ) : (
+                  <section
+                    aria-live="polite"
+                    aria-label="User watchlist movies"
+                    className="grid grid-cols-4 gap-3 sm:gap-4"
+                  >
+                    {visibleWatchlist.map((movie, index) => (
+                      <MovieCard
+                        key={movie.id ? `${movie.id}-${index}` : `${movie.title}-${index}`}
+                        movie={movie}
+                        onStatusChange={handleStatusChange}
+                        onRemove={handleRemove}
+                      />
+                    ))}
+                  </section>
+                )}
+              </>
             )
           }
         />
